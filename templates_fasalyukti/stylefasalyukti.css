@@ -1,0 +1,197 @@
+
+    body {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      background: linear-gradient(to right, #f1ffe7, #d6fccc);
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+
+    nav {
+      background: #1b8f2e;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: relative;
+    }
+
+    nav span {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .language-select, .dark-toggle {
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 380px;
+      min-height: 560px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      background: white;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    .card-front {
+      z-index: 2;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background: #eaffec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .form-box h2 {
+      text-align: center;
+      color: #1b8f2e;
+      margin-bottom: 1rem;
+    }
+
+    .form-box label {
+      font-weight: bold;
+      margin-top: 0.6rem;
+      display: block;
+    }
+
+    .form-box input {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .form-box button {
+      background: #1b8f2e;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      width: 100%;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .form-box button:hover {
+      background: #145f1f;
+    }
+
+    .card-back h2 {
+      color: #1b8f2e;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .falling-leaf {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.1;
+      animation: fall linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%) rotate(0deg);
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0.05;
+      }
+    }
+
+    .leaf:nth-child(1) { left: 5%; animation-duration: 10s; }
+    .leaf:nth-child(2) { left: 20%; animation-duration: 13s; }
+    .leaf:nth-child(3) { left: 40%; animation-duration: 11s; }
+    .leaf:nth-child(4) { left: 60%; animation-duration: 15s; }
+    .leaf:nth-child(5) { left: 80%; animation-duration: 9s; }
+
+    .signature {
+      text-align: center;
+      font-size: 0.95rem;
+      padding: 1rem;
+      color: #1b8f2e;
+    }
+
+    .dark-mode {
+      background: #2e2e2e;
+      color: #e0ffe6;
+    }
+
+    .dark-mode nav {
+      background: #145f1f;
+    }
+
+    .dark-mode .card-face {
+      background: #3d3d3d;
+      color: white;
+    }
+
+    .dark-mode .form-box button {
+      background: #29b96c;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+
+      .card-face {
+        padding: 1.2rem;
+      }
+
+      .nav-right {
+        flex-direction: column;
+      }
+    }
+  

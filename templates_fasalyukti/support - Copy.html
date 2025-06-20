@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FasalYukti - Crop Recommendation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      background: linear-gradient(to right, #f1ffe7, #d6fccc);
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+
+    nav {
+      background: #1b8f2e;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: relative;
+    }
+
+    nav span {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .language-select, .dark-toggle {
+      padding: 0.4rem 0.6rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: bold;
+    }
+
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 380px;
+      min-height: 560px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      background: white;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    .card-front {
+      z-index: 2;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background: #eaffec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .form-box h2 {
+      text-align: center;
+      color: #1b8f2e;
+      margin-bottom: 1rem;
+    }
+
+    .form-box label {
+      font-weight: bold;
+      margin-top: 0.6rem;
+      display: block;
+    }
+
+    .form-box input {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .form-box button {
+      background: #1b8f2e;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      width: 100%;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    .form-box button:hover {
+      background: #145f1f;
+    }
+
+    .card-back h2 {
+      color: #1b8f2e;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .falling-leaf {
+      position: absolute;
+      font-size: 2rem;
+      opacity: 0.1;
+      animation: fall linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%) rotate(0deg);
+        opacity: 0.2;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0.05;
+      }
+    }
+
+    .leaf:nth-child(1) { left: 5%; animation-duration: 10s; }
+    .leaf:nth-child(2) { left: 20%; animation-duration: 13s; }
+    .leaf:nth-child(3) { left: 40%; animation-duration: 11s; }
+    .leaf:nth-child(4) { left: 60%; animation-duration: 15s; }
+    .leaf:nth-child(5) { left: 80%; animation-duration: 9s; }
+
+    .signature {
+      text-align: center;
+      font-size: 0.95rem;
+      padding: 1rem;
+      color: #1b8f2e;
+    }
+
+    .dark-mode {
+      background: #2e2e2e;
+      color: #e0ffe6;
+    }
+
+    .dark-mode nav {
+      background: #145f1f;
+    }
+
+    .dark-mode .card-face {
+      background: #3d3d3d;
+      color: white;
+    }
+
+    .dark-mode .form-box button {
+      background: #29b96c;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+
+      .card-face {
+        padding: 1.2rem;
+      }
+
+      .nav-right {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span>🌾FasalYukti || फसलयुक्ति || ଫସଳଯୁକ୍ତି</span>
+  <div class="nav-right">
+    <select class="language-select" onchange="changeLanguage(this.value)">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="or">ଓଡ଼ିଆ</option>
+    </select>
+    <button class="dark-toggle" onclick="toggleDarkMode()">🌓</button>
+  </div>
+</nav>
+
+<!-- Falling leaves -->
+<div class="falling-leaf leaf">🍃</div>
+<div class="falling-leaf leaf">🍂</div>
+<div class="falling-leaf leaf">🍁</div>
+<div class="falling-leaf leaf">🍃</div>
+<div class="falling-leaf leaf">🍂</div>
+
+<div class="container">
+  <div class="card" id="flipCard">
+    <div class="card-face card-front">
+      <div class="form-box">
+        <h2 id="formTitle">Smart Crop Recommendation</h2>
+
+        <label id="labelN" for="inputN">Nitrogen</label>
+        <input type="text" id="inputN" placeholder="e.g., 90">
+
+        <label id="labelP" for="inputP">Phosphorus</label>
+        <input type="text" id="inputP" placeholder="e.g., 40">
+
+        <label id="labelK" for="inputK">Potassium</label>
+        <input type="text" id="inputK" placeholder="e.g., 50">
+
+        <label id="labelPH" for="inputPH">Soil pH</label>
+        <input type="text" id="inputPH" placeholder="e.g., 6.5">
+
+        <label id="labelRain" for="inputRain">Rainfall (mm)</label>
+        <input type="text" id="inputRain" placeholder="e.g., 120">
+
+        <button onclick="recommendCrop()">🌱 Recommend</button>
+        <button onclick="resetForm()">🔄 Reset</button>
+      </div>
+    </div>
+    <div class="card-face card-back">
+      <h2 id="resultText">Recommended crop is: 🌾 Rice</h2>
+      <canvas id="resultChart" width="300" height="200"></canvas>
+      <button onclick="flipBack()">🔁 Go Back</button>
+    </div>
+  </div>
+</div>
+
+<div class="signature">
+  ✍️ Made with 💚 by Prapti Mishra | FasalYukti 2025
+</div>
+
+<script>
+const translations = {
+  en: {
+    formTitle: "Smart Crop Recommendation",
+    labels: ["Nitrogen", "Phosphorus", "Potassium", "Soil pH", "Rainfall (mm)"],
+    recommend: "🌱 Recommend",
+    reset: "🔄 Reset",
+    resultPrefix: "Recommended crop is: 🌾",
+    goBack: "🔁 Go Back",
+    crops: ["Rice", "Wheat", "Chickpea", "Maize", "Barley", "Mustard"]
+  },
+  hi: {
+    formTitle: "स्मार्ट फसल सिफारिश",
+    labels: ["नाइट्रोजन", "फॉस्फोरस", "पोटैशियम", "मिट्टी का पीएच", "वर्षा (मिमी)"],
+    recommend: "🌱 सिफारिश करें",
+    reset: "🔄 रीसेट",
+    resultPrefix: "अनुशंसित फसल है: 🌾",
+    goBack: "🔁 वापिस जाएं",
+    crops: ["चावल", "गेहूं", "चना", "मक्का", "जौ", "सरसों"]
+  },
+  or: {
+    formTitle: "ସ୍ମାର୍ଟ ଫସଲ ସୁପାରିଶ",
+    labels: ["ନାଇଟ୍ରୋଜେନ୍", "ଫସ୍ଫୋରସ୍", "ପଟାସିଅମ୍", "ମାଟିର pH", "ବର୍ଷା (ମି.ମି)"],
+    recommend: "🌱 ସୁପାରିଶ କରନ୍ତୁ",
+    reset: "🔄 ପୁନଃସେଟ୍",
+    resultPrefix: "ଅନୁଶଂସିତ ଫସଲ: 🌾",
+    goBack: "🔁 ପଛକୁ ଯିବେ",
+    crops: ["ଧାନ", "ଗହମ", "ଛୋଲା", "ମକା", "ଯଉ", "ସରିସପ"]
+  }
+};
+
+function changeLanguage(lang) {
+  const t = translations[lang];
+  document.getElementById('formTitle').textContent = t.formTitle;
+  document.getElementById('labelN').textContent = t.labels[0];
+  document.getElementById('labelP').textContent = t.labels[1];
+  document.getElementById('labelK').textContent = t.labels[2];
+  document.getElementById('labelPH').textContent = t.labels[3];
+  document.getElementById('labelRain').textContent = t.labels[4];
+  document.querySelector(".form-box button").textContent = t.recommend;
+  document.querySelectorAll(".form-box button")[1].textContent = t.reset;
+  document.querySelector(".card-back button").textContent = t.goBack;
+}
+
+function recommendCrop() {
+  const lang = document.querySelector('.language-select').value;
+  const t = translations[lang];
+
+  const crop = t.crops[Math.floor(Math.random() * t.crops.length)];
+  document.getElementById('resultText').textContent = `${t.resultPrefix} ${crop}`;
+
+  const n = parseFloat(document.getElementById('inputN').value) || 0;
+  const p = parseFloat(document.getElementById('inputP').value) || 0;
+  const k = parseFloat(document.getElementById('inputK').value) || 0;
+  const ph = parseFloat(document.getElementById('inputPH').value) || 0;
+  const rain = parseFloat(document.getElementById('inputRain').value) || 0;
+
+  if (window.resultChartInstance) {
+    window.resultChartInstance.destroy();
+  }
+
+  const ctx = document.getElementById('resultChart').getContext('2d');
+  window.resultChartInstance = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: t.labels,
+      datasets: [{
+        label: 'Input Values',
+        data: [n, p, k, ph, rain],
+        backgroundColor: ['#4caf50', '#2196f3', '#ffc107', '#9c27b0', '#ff5722'],
+        borderRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+
+  document.getElementById('flipCard').classList.add('flipped');
+}
+
+function flipBack() {
+  document.getElementById('flipCard').classList.remove('flipped');
+}
+
+function resetForm() {
+  document.querySelectorAll("input").forEach(el => el.value = "");
+  flipBack();
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle('dark-mode');
+}
+</script>
+
+</body>
+</html>
