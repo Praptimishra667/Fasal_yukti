@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Customer Sentiment Analysis</title>
+
+  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" defer></script>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styleindexcustom.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
+  <!-- Custom Script -->
+  <script src="scriptindexcustom.js" defer></script>
+</head>
+
+<body id="page-top" class="view-desktop">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-secondary fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#page-top">
+        <img src="assets/img/pngegg (16).png" alt="Brand" height="40">
+      </a>
+      <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto align-items-center">
+          <li class="nav-item"><a class="nav-link" href="#portfolio">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">Analytics</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Reports</a></li>
+          <li class="nav-item"><span class="switch-icons" id="themeToggle">🌙</span></li>
+          <li class="nav-item"><span class="switch-icons" id="viewToggle">🖥️</span></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sentiment Charts -->
+  <section class="page-section mt-5 pt-5" id="portfolio">
+    <div class="container text-center animate__animated animate__fadeIn">
+      <h2 class="page-section-heading text-uppercase text-secondary mb-4">Customer Sentiment Analysis</h2>
+      <div class="row">
+        <!-- True Sentiment -->
+        <div class="col-md-4 mb-4">
+          <canvas id="sentimentChartTrue"></canvas>
+          <div class="mt-3">
+            <button class="btn btn-secondary" onclick="exportChart(chartTrue, 'TrueSentiment')">Export PNG</button>
+            <button class="btn btn-secondary" onclick="exportPDF(chartTrue, 'TrueSentiment')">Export PDF</button>
+            <button class="btn btn-secondary" onclick="exportCSV(chartTrue, 'TrueSentiment')">Export CSV</button>
+          </div>
+        </div>
+
+        <!-- VADER -->
+        <div class="col-md-4 mb-4">
+          <canvas id="sentimentChartVader"></canvas>
+          <div class="mt-3">
+            <button class="btn btn-secondary" onclick="exportChart(chartVader, 'VADER')">Export PNG</button>
+            <button class="btn btn-secondary" onclick="exportPDF(chartVader, 'VADER')">Export PDF</button>
+            <button class="btn btn-secondary" onclick="exportCSV(chartVader, 'VADER')">Export CSV</button>
+          </div>
+        </div>
+
+        <!-- TextBlob -->
+        <div class="col-md-4 mb-4">
+          <canvas id="sentimentChartTextBlob"></canvas>
+          <div class="mt-3">
+            <button class="btn btn-secondary" onclick="exportChart(chartTextBlob, 'TextBlob')">Export PNG</button>
+            <button class="btn btn-secondary" onclick="exportPDF(chartTextBlob, 'TextBlob')">Export PDF</button>
+            <button class="btn btn-secondary" onclick="exportCSV(chartTextBlob, 'TextBlob')">Export CSV</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feedback Section -->
+  <section class="page-section bg-light" id="contact">
+    <div class="container animate__animated animate__fadeInUp">
+      <h2 class="text-center text-uppercase text-secondary mb-4">Submit Feedback</h2>
+      <form>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Your Name" required />
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" rows="4" placeholder="Your Feedback..." required></textarea>
+        </div>
+        <div class="form-group">
+          <strong>How was your experience?</strong><br />
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="experience" value="satisfactory" required />
+            <label class="form-check-label">😊 Satisfactory</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="experience" value="neutral" />
+            <label class="form-check-label">😐 Neutral</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="experience" value="unsatisfactory" />
+            <label class="form-check-label">😞 Unsatisfactory</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block mt-3">Send</button>
+      </form>
+      <p class="text-center mt-3 text-muted">
+        For further queries, contact <strong>Prapti Mishra</strong> at
+        <a href="mailto:praptimishra977@gmail.com">praptimishra977@gmail.com</a>
+        or call <strong>+91 7735474929</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer text-center py-4">
+    <div class="container">
+      <small>&copy; 2025 Customer Insights Inc. All rights reserved.</small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

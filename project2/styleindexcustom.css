@@ -1,0 +1,98 @@
+/* Base Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h2 {
+  color: #1c2d5a;
+}
+
+/* Navbar */
+.navbar-nav .nav-link {
+  font-weight: 500;
+  color: #fff !important;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: #1c2d5a;
+  border-color: #1c2d5a;
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: #2a3c7c;
+  border-color: #2a3c7c;
+}
+
+/* View Mode Toggle */
+.view-mobile .col-md-4 {
+  flex: 0 0 100% !important;
+  max-width: 100% !important;
+}
+.view-desktop .col-md-4 {
+  flex: 0 0 33.3333% !important;
+  max-width: 33.3333% !important;
+}
+
+/* Toggle Icons */
+.switch-icons {
+  font-size: 1.2rem;
+  margin-left: 8px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* ===================== DARK MODE ===================== */
+body.dark-mode {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+.dark-mode h2,
+.dark-mode h1,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6 {
+  color: #e0e0e0;
+}
+
+.dark-mode .navbar {
+  background-color: #1c1c1c !important;
+}
+
+.dark-mode .navbar-nav .nav-link {
+  color: #ccc !important;
+}
+
+.dark-mode .form-control,
+.dark-mode .form-check-label,
+.dark-mode input,
+.dark-mode select,
+.dark-mode textarea {
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.dark-mode .btn-primary {
+  background-color: #333;
+  border-color: #444;
+  color: #fff;
+}
+.dark-mode .btn-primary:hover {
+  background-color: #444;
+  border-color: #555;
+}
+
+.dark-mode canvas {
+  background-color: #1e1e1e !important;
+  border-radius: 10px;
+}
+
+.dark-mode .switch-icons {
+  color: #f1f1f1;
+}
